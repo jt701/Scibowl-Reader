@@ -1,0 +1,387 @@
+[
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 1,
+    "question_type": "Short Answer",
+    "subject": "BIOLOGY",
+    "question": "What is the most common term used in genetics to describe the  observable physical characteristics of an organism caused by the expression of a gene or set of  genes?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 1,
+    "question_type": "Short Answer",
+    "subject": "BIOLOGY",
+    "question": "What is the biological term most often used for the act of a cell  engulfing a particle by extending its pseudopodia (read as: SU-doe-POH-dee-ah"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 2,
+    "question_type": "Multiple Choice",
+    "subject": "CHEMISTRY"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 2,
+    "question_type": "Short Answer",
+    "subject": "CHEMISTRY",
+    "question": "Find the mass of 1 mole of cuprous oxide, or Cu2O.  Assume the  atomic mass of copper is 64 and oxygen is 16."
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 3,
+    "question_type": "Short Answer",
+    "subject": "PHYSICS",
+    "question": "What property of a sound wave is most commonly associated with  loudness?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 3,
+    "question_type": "Short Answer",
+    "subject": "PHYSICS",
+    "question": "What is the MOST common term for the behavior of light where it  appears to bend around small obstacles or the spreading out of waves as light passes through  pinholes or slits?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 4,
+    "question_type": "Short Answer",
+    "subject": "MATH",
+    "question": "What term BEST describes 2 angles with 90\u00ba as the sum of their  measurements?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 4,
+    "question_type": "Short Answer",
+    "subject": "MATH",
+    "question": "Divide the following and give your answer in scientific notation:    2 1 4 7 4 10"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 5,
+    "question_type": "Multiple Choice",
+    "subject": "EARTH SCIENCE"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 5,
+    "question_type": "Multiple Choice",
+    "subject": "EARTH SCIENCE"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 6,
+    "question_type": "Short Answer",
+    "subject": "GENERAL SCIENCE",
+    "question": "How many significant figures are in the number 0.00750?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 6,
+    "question_type": "Short Answer",
+    "subject": "GENERAL SCIENCE",
+    "question": "Subtract the following 2 numbers and give your answer  with the proper significant figures:  25.101 \u2013 0.9608"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 7,
+    "question_type": "Short Answer",
+    "subject": "ASTRONOMY",
+    "question": "What is the proper name of the star that is most commonly noted  to have coordinates closest to the north celestial pole?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 7,
+    "question_type": "Short Answer",
+    "subject": "ASTRONOMY",
+    "question": "What is the most well-known asterism in Ursa Major?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 8,
+    "question_type": "Multiple Choice",
+    "subject": "BIOLOGY"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 8,
+    "question_type": "Short Answer",
+    "subject": "BIOLOGY",
+    "question": "What are the 2 basic categories of lymphocyte cells?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 9,
+    "question_type": "Short Answer",
+    "subject": "CHEMISTRY",
+    "question": "What general type of bonding is found in molecules in which  electrons are shared by nuclei?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 9,
+    "question_type": "Short Answer",
+    "subject": "CHEMISTRY",
+    "question": "Name all of the following 4 processes where latent heat is  absorbed:  evaporation;  condensation;  water melts;  water freezes"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 10,
+    "question_type": "Short Answer",
+    "subject": "PHYSICS",
+    "question": "Although not known as such at the time, what was the first form of  spectacular electric discharge seen by humans?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 10,
+    "question_type": "Multiple Choice",
+    "subject": "PHYSICS"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 11,
+    "question_type": "Short Answer",
+    "subject": "MATH",
+    "question": "Simplify the following expression, where a is not equal to zero if b = 0  or if b = \u20131:"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 11,
+    "question_type": "Short Answer",
+    "subject": "MATH",
+    "question": "Giving your answer in inches and in simplest radical form, if the  hypotenuse of a 45-45-90\u00ba triangle is 10 inches, find the length of the other sides:"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 12,
+    "question_type": "Multiple Choice",
+    "subject": "EARTH SCIENCE"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 12,
+    "question_type": "Multiple Choice",
+    "subject": "EARTH SCIENCE"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 13,
+    "question_type": "Multiple Choice",
+    "subject": "GENERAL SCIENCE"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 13,
+    "question_type": "Short Answer",
+    "subject": "GENERAL SCIENCE",
+    "question": "Rounded to the nearest whole number, how many feet  does light travel in one-billionth of one second?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 14,
+    "question_type": "Short Answer",
+    "subject": "ASTRONOMY",
+    "question": "What star has the greatest apparent magnitude?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 14,
+    "question_type": "Short Answer",
+    "subject": "ASTRONOMY",
+    "question": "What planet is known to be most like Earth in size and density?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 15,
+    "question_type": "Short Answer",
+    "subject": "BIOLOGY",
+    "question": "How many embryonic seed leaves does a bean seedling have?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 15,
+    "question_type": "Short Answer",
+    "subject": "BIOLOGY",
+    "question": "Name all of the following 5 plants that are dicots:    wheat;  geranium;  garlic;  bamboo;  rose"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 16,
+    "question_type": "Multiple Choice",
+    "subject": "CHEMISTRY"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 16,
+    "question_type": "Short Answer",
+    "subject": "CHEMISTRY",
+    "question": "In general, metals are relatively hard except for what group of  metals in the Periodic Table?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 17,
+    "question_type": "Multiple Choice",
+    "subject": "PHYSICS"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 17,
+    "question_type": "Multiple Choice",
+    "subject": "PHYSICS"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 18,
+    "question_type": "Short Answer",
+    "subject": "MATH",
+    "question": "Giving your answer in terms of \u03c0 and in inches, what is the arc-length of  a semi-circle whose diameter is 18 inches?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 18,
+    "question_type": "Short Answer",
+    "subject": "MATH",
+    "question": "What is the area, in square feet, of a triangle whose perpendicular height  is 20 feet with a base of 12 feet?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 19,
+    "question_type": "Multiple Choice",
+    "subject": "EARTH SCIENCE"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 19,
+    "question_type": "Multiple Choice",
+    "subject": "EARTH SCIENCE"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 20,
+    "question_type": "Short Answer",
+    "subject": "GENERAL SCIENCE",
+    "question": "What gas is most directly responsible for the bends or  decompression sickness that divers may experience?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 20,
+    "question_type": "Short Answer",
+    "subject": "GENERAL SCIENCE",
+    "question": "In degrees Celsius to the nearest whole number, what is  the normal core body temperature of a human being?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 21,
+    "question_type": "Short Answer",
+    "subject": "ASTRONOMY",
+    "question": "What is the declination of the north celestial pole?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 21,
+    "question_type": "Short Answer",
+    "subject": "ASTRONOMY",
+    "question": "The Sagittarius Arm is part of what galaxy?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 22,
+    "question_type": "Multiple Choice",
+    "subject": "BIOLOGY"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 22,
+    "question_type": "Short Answer",
+    "subject": "BIOLOGY",
+    "question": "Using the traditional system of classification, when organisms  belong to the same class, name all of the following 4 taxonomic categories to which they must also  belong: order;  family;  phylum;  kingdom"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 23,
+    "question_type": "Short Answer",
+    "subject": "CHEMISTRY",
+    "question": "According to standard chemical nomenclature and indicating the  proper charge, what is the formula for hydrogen sulfide?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 23,
+    "question_type": "Short Answer",
+    "subject": "CHEMISTRY",
+    "question": "Of the following group of 4 cations, which are the LARGEST  and SMALLEST ions, respectively:  K+;  Na+;  Rb+;  Li+"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 24,
+    "question_type": "Multiple Choice",
+    "subject": "PHYSICS"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 24,
+    "question_type": "Short Answer",
+    "subject": "PHYSICS",
+    "question": "What is the BEST term for the tendency of any mass at rest to remain  at rest?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 25,
+    "question_type": "Short Answer",
+    "subject": "BIOLOGY",
+    "question": "What is the genus name of the most thoroughly studied bacterium?"
+  },
+  {
+    "set": 1,
+    "round": 2,
+    "question_num": 25,
+    "question_type": "Short Answer",
+    "subject": "BIOLOGY",
+    "question": "Name all of the following 3 processes that do NOT occur in E. coli:   glycolysis;  photosynthesis;  glycogenolysis (read as: GLYKO-jen-oh-LY-sis"
+  }
+]
