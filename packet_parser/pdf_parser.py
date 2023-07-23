@@ -2,7 +2,8 @@ import PyPDF2
 from pdfminer.high_level import extract_text
 import fitz
 
-#various pdf2 parsers to potentially use
+#various pdf parsers to potentially use
+#2 is working best for me right now
 def parse_pdf(file_path):
     pdf_text = ""
 
@@ -37,13 +38,13 @@ def parse_pdf3(file_path):
     with pdfplumber.open(file_path) as pdf:
         for page in pdf.pages:
             pdf_text += page.extract_text()
-
+            
     return pdf_text
 
 def parse_pdf4(file_path):
     text = extract_text(file_path)
     print(text)
     
-text = parse_pdf3("packets/set1-round1.pdf")
-print(text)
+# text = parse_pdf3("packets/set1-round1.pdf")
+# # print(text)
 

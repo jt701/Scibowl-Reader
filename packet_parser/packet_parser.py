@@ -1,89 +1,92 @@
 import re
 import json
 import pdf_parser as p
+import ast
 
-def extract_question_details(question_text):
-    question_details = {}
-    # Extract type of question (TOSS-UP or BONUS)
-    question_details["type"] = "TOSS-UP" if "TOSS-UP" in question_text else "BONUS"
-    
-    # Extract subject (BIOLOGY, CHEMISTRY, etc.)
-    subject_match = re.search(r"[A-Z\s]+(?= Short Answer| Multiple Choice)", question_text)
-    if subject_match:
-        question_details["subject"] = subject_match.group().strip()
-    
-    # Extract the question text
-    question_match = re.search(r"\d+\)\s+(.*)\n", question_text)
-    if question_match:
-        question_details["question"] = question_match.group(1).strip()
-    
-    # Extract the answer choices (for Multiple Choice questions)
-    choices_match = re.search(r"(?<=W\)\s).+(?=\n)", question_text)
-    if choices_match:
-        answer_choices = choices_match.group().split("\n")
-        question_details["answer_choices"] = answer_choices
-    
-    # Extract the correct answer
-    answer_match = re.search(r"ANSWER: (.+)", question_text)
-    if answer_match:
-        correct_answer = answer_match.group(1).strip()
-        # For Multiple Choice, separate the letter and the answer if it says both
-        if " or " in correct_answer:
-            correct_answer = correct_answer.split(" or ")
-        question_details["answer"] = correct_answer
-    
-    return question_details
+#several functions for cleaning individual data fragments
+#includes universal cleaning, smaller cleaning functions, and cleaning functions for attribute types
+def remove_pronunciations(text):
+    pattern1 = r'\s*\[\w+(?:-\w+)+\]'
+    pattern2 = r'\s*(?:\(|\[)read as:\s*\w+(?:-\w+)+(?:\)|\])'
+    cleaned_text = re.sub(pattern1, '', text)
+    return re.sub(pattern2, '', cleaned_text)
 
-def main():
-    questions_text = p.parse_pdf3("packets/set1-round1.pdf")
-    
-    # Split the text into individual questions
-    questions = re.split(r"(TOSS-UP|BONUS)", questions_text)[1:]
-    
-    question_objects = []
-    for i in range(0, len(questions), 2):
-        question_text = questions[i + 1]
-        question_details = extract_question_details(question_text)
-        question_objects.append(question_details)
-    
-    # Write the question objects to a JSON file
-    with open("questions.json", "w") as json_file:
-        json.dump(question_objects, json_file, indent=2)
-        
-def clean_question():
-    print(0)
-def clean_answer():
-    print(0)
-def clean_answer_choices():
-    print(0)
-    
 
+def univeral_clean(string):
+    string = remove_pronunciations(string)
+    string = string.strip().replace("\n", "")
+    #helps with unicode characters, needs to be after stripping whitespace
+    return string
+
+#returns human readable and computer readable question
+def clean_question(question):
+    question = univeral_clean(question)
+    return question, question
+
+#returns human readable and computer readable answer
+def clean_answer(answer):
+    answer = univeral_clean(answer)
+    return answer, answer
+
+def clean_answer_choices(choices):
+    for choice in choices:
+        choice = univeral_clean(choice)
+    return choices
+
+def clean_subject(subject):
+    subject = univeral_clean(subject)
+    cleaned_text = re.sub(r'[^a-zA-Z\s]', '', subject)
+    return cleaned_text.upper()
+
+#helper function to parse_questions
+#gets detail once question is passed to it
 def get_question_details(question, set, round, question_num, question_type):
     details = {}
+    
+    #dealing with simple parameters
     details['set'] = set
     details['round'] = round
-    details['question_num'] = question_num
-    details['question_type'] = question_type
+    details['q_num'] = question_num
+    details['q_type'] = question_type
     
-    parts = question.split(')')
-    parts2 = re.split(r"(Short Answer|Multiple Choice)", parts[1])
-    details['subject'] = parts2[0].strip()
+    subject_pattern = r'\)([^)]+)\s+(Multiple Choice|Short Answer)'
     
-    question_type = parts2[1].strip()
-    details['question_type'] = question_type
-    if question_type == "Short Answer":
-        parts3= re.split(r"(ANSWER:)", parts2[2])
-        question = parts3[0].strip().replace("\n", " ")
-        details['question'] = question
-        parts4 = re.split(r" ", parts3[1])
-        answer = parts4[0].strip().replace("\n", " ")
-        details['answer'] = answer
+    #getting subject and answer type
+    subject_match = re.search(subject_pattern, question, re.DOTALL)
+    subject = subject_match.group(1).strip()
+    details['subject'] = clean_subject(subject)
+    answer_type = subject_match.group(2).strip()
+    details['ans_type'] = answer_type
+    
+    after_qtype = re.split(r"(Multiple Choice|Short Answer)", question)[2]
+    question_and_answers = re.split(r"ANSWER:", after_qtype)
+    question = question_and_answers[0]
+    
+    #extracting choices and readjusting question for MC
+    if answer_type == "Multiple Choice":
+        answer_choices_pattern = r'^[WXYZ]\)\s*(.*?)\s*(?=(?:^[WXYZ]\)|ANSWER:|$))'
+        answer_choices_matches = re.findall(answer_choices_pattern, question, re.MULTILINE)
+        answer_choices = [choice for choice in answer_choices_matches]
+        details['ans_choices'] = clean_answer_choices(answer_choices)
+        question = re.split(r"W\)", question)[0]
+    
+    #getting answer and question attributes, computer version and human version
+    cleaned_questions = clean_question(question)
+    details['question'] = cleaned_questions[0]
+    details['computer_question'] = cleaned_questions[1]
+    answer_extended = question_and_answers[1]
+    answer = re.split(r"\n \n", answer_extended)[0]
+    
+    cleaned_answers = clean_answer(answer)
+    details['answer'] = cleaned_answers[0]
+    details['computer_ans'] = cleaned_answers[1]
     return details
     
-    
-
+#main function to actually do the parsing
+#takes file path, set and round
+#writes questions to json file 
 def parse_questions(file_path, set, round):
-    questions_text = p.parse_pdf4(file_path)
+    questions_text = p.parse_pdf2(file_path)
     split_text = re.split(r"(TOSS-UP|BONUS)", questions_text)
     questions = split_text[1:]
     question_objects = []
@@ -96,19 +99,16 @@ def parse_questions(file_path, set, round):
         question_objects.append(bonus)
         question_num += 1
     
-    #call chatgpt
-    
     # Write the question objects to a JSON file
-    with open("questions.json", "w") as json_file:
-        json.dump(question_objects, json_file, indent=2)
-
-
-    
-    
+    with open("curr_questions.json", "w", encoding="utf-8") as json_file:
+        json.dump(question_objects, json_file, indent=2, ensure_ascii=False)
     
 parse_questions('packets/set1-round1.pdf', 1, 2)
-#problem with split is that ) or 1) can be seen in question and fuck up parsing
-"""    
+
+"""   
+
+
+ 
 exceptions
 1. Order with semicolon necessiates that order
 2. order with number has comma
@@ -117,6 +117,7 @@ exceptions
 5. OR keyword, ACCEPT, multiple choice takes letter and exact expression
 6. readable, speakable
 7. list for choices, each choice is possible, ,says needs that otder
+8. math answers like fractions, sqrt, etc. 
 
 fields 
 set, round1, question_num
