@@ -2,42 +2,20 @@ import re
 import json
 import pdf_parser as p
 import ast
+import clean as c
 
-#several functions for cleaning individual data fragments
-#includes universal cleaning, smaller cleaning functions, and cleaning functions for attribute types
-def remove_pronunciations(text):
-    pattern1 = r'\s*\[\w+(?:-\w+)+\]'
-    pattern2 = r'\s*(?:\(|\[)read as:\s*\w+(?:-\w+)+(?:\)|\])'
-    cleaned_text = re.sub(pattern1, '', text)
-    return re.sub(pattern2, '', cleaned_text)
+""" 
+Manual Checks (can't be automated, at least without copious amounts of work)
+1. [] or (read as: ) with many lines (not pronunications) 
+    remove preceding and replace with whatever is in [] or ()
+2. Random symbols should just be put into words
+3. Chemical formulas need spaces for computer question readable to ensure
+    that they are read correctly
+4. Weird math equations that didn't parse correctly must be put into words
+5. Expressions that don't parse correctly
+    sqrt(), usign e for scientic notation (1.5e10), ^ for powers, 
 
-
-def univeral_clean(string):
-    string = remove_pronunciations(string)
-    string = string.strip().replace("\n", "")
-    #helps with unicode characters, needs to be after stripping whitespace
-    return string
-
-#returns human readable and computer readable question
-def clean_question(question):
-    question = univeral_clean(question)
-    return question, question
-
-#returns human readable and computer readable answer
-def clean_answer(answer):
-    answer = univeral_clean(answer)
-    return answer, answer
-
-def clean_answer_choices(choices):
-    for choice in choices:
-        choice = univeral_clean(choice)
-    return choices
-
-def clean_subject(subject):
-    subject = univeral_clean(subject)
-    cleaned_text = re.sub(r'[^a-zA-Z\s]', '', subject)
-    return cleaned_text.upper()
-
+"""
 #helper function to parse_questions
 #gets detail once question is passed to it
 def get_question_details(question, set, round, question_num, question_type):
@@ -54,7 +32,7 @@ def get_question_details(question, set, round, question_num, question_type):
     #getting subject and answer type
     subject_match = re.search(subject_pattern, question, re.DOTALL)
     subject = subject_match.group(1).strip()
-    details['subject'] = clean_subject(subject)
+    details['subject'] = c.clean_subject(subject)
     answer_type = subject_match.group(2).strip()
     details['ans_type'] = answer_type
     
@@ -67,17 +45,18 @@ def get_question_details(question, set, round, question_num, question_type):
         answer_choices_pattern = r'^[WXYZ]\)\s*(.*?)\s*(?=(?:^[WXYZ]\)|ANSWER:|$))'
         answer_choices_matches = re.findall(answer_choices_pattern, question, re.MULTILINE)
         answer_choices = [choice for choice in answer_choices_matches]
-        details['ans_choices'] = clean_answer_choices(answer_choices)
+        details['ans_choices'] = c.clean_answer_choices(answer_choices)
         question = re.split(r"W\)", question)[0]
     
     #getting answer and question attributes, computer version and human version
-    cleaned_questions = clean_question(question)
+    #human version is string, computer version is list with possible values
+    cleaned_questions = c.clean_question(question)
     details['question'] = cleaned_questions[0]
     details['computer_question'] = cleaned_questions[1]
     answer_extended = question_and_answers[1]
     answer = re.split(r"\n \n", answer_extended)[0]
     
-    cleaned_answers = clean_answer(answer)
+    cleaned_answers = c.clean_answer(answer)
     details['answer'] = cleaned_answers[0]
     details['computer_ans'] = cleaned_answers[1]
     return details
@@ -103,7 +82,7 @@ def parse_questions(file_path, set, round):
     with open("curr_questions.json", "w", encoding="utf-8") as json_file:
         json.dump(question_objects, json_file, indent=2, ensure_ascii=False)
     
-parse_questions('packets/set1-round1.pdf', 1, 2)
+parse_questions('packets/set1-round1.pdf', 1, 1)
 
 """   
 
