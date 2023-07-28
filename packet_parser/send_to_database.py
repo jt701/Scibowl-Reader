@@ -2,6 +2,8 @@ import pymongo
 import json
 import jsonschema
 
+#write to questions collection of scibowl database 
+mongo_url = 'mongodb://127.0.0.1:27017/'
 
 schema = {
   "type": "object",
@@ -35,7 +37,7 @@ schema = {
 }
 
 def write_file(relative_path):
-    client = pymongo.MongoClient('mongodb://127.0.0.1:27017/')
+    client = pymongo.MongoClient(mongo_url)
     db = client['scibowl'] 
     collection = db['questions']
     

@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require("mongoose"); 
 const InitiateMongoDBServer = require("./config/db");
 
+//setup
 InitiateMongoDBServer();
 const db = mongoose.connection;
 
@@ -16,11 +17,14 @@ app.options('*', cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
-router.get('/', function (req, res) {
+//routes
+router.get('/', (req, res) => {
     res.json({message : "API working"});
 })
 app.use("/", router);
+
+const questionRouter = require('./routes/questions.js')
+app.use('/question', questionRouter)
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
