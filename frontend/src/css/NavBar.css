@@ -1,1 +1,19 @@
+.navbar{ 
+    background-color: rgb(62, 12, 53);
+}
+
+.navbar .navbar-brand {
+    margin-right: 2rem;
+    margin-left: 0rem;
+}
+
+.navbar .container {
+    margin-right: 0rem;
+    margin-left: 1rem;
+}
+
+.single-player {
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
 

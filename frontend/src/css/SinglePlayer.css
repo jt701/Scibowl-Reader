@@ -1,0 +1,21 @@
+.options-container {
+    padding-left: 5vw; 
+}
+
+.faint-grey {
+    background-color: #f1f1f1f9; 
+  }
+
+.question-header {
+    margin-bottom: 2.5vh;
+}
+
+.header-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-margin {
+   padding: 0;
+}

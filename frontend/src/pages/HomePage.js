@@ -1,7 +1,11 @@
+import Question from "../components/Question";
 
 function HomePage() {
     return (
-        <h1>HomePage</h1>
+        <div>
+            <h1>How to Play</h1>
+            <Question />
+        </div>
     );
 }
 
