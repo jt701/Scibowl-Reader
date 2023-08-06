@@ -3,7 +3,7 @@
 }
 
 .navbar .navbar-brand {
-    margin-right: 2rem;
+    margin-right: 0rem;
     margin-left: 0rem;
 }
 
@@ -13,7 +13,7 @@
 }
 
 .single-player {
-    margin-right: 2rem;
-    margin-left: 2rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
 }
 

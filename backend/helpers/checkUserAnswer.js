@@ -44,7 +44,31 @@ const levenshtein = (str1, str2) => {
     return partial_lev[a][b];
 }
 
-const checkUserAnswer = (userAnswer, answersList) => {
+const checkUserAnswer = (userAnswer, answersList, ansType) => {
+    //if mc, check first letter or entire phrase
+    console.log('jest');
+    if (ansType == "Multiple Choice") {
+        console.log('nest')
+        console.log('div')
+        console.log(answersList)
+        
+        console.log(answersList[0][0].toLowerCase())
+        console.log("div1")
+        console.log(userAnswer.trim())
+        console.log("div2")
+        console.log(userAnswer.trim().toLowerCase())
+
+    
+        if (answersList[0][0].toLowerCase() == userAnswer.trim().toLowerCase()) {
+            return true;
+        } else {
+            console.log('pest')
+            console.log('pest')
+            answersList[0] = answersList[0].split(")")[1];
+           
+        }
+        
+    }
     const cleanedUserAnswer = cleanAnswer(userAnswer);
     const cleanedAnswerList = answersList.map(cleanAnswer);
 

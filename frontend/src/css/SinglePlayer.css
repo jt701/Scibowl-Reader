@@ -1,13 +1,14 @@
 .options-container {
-    padding-left: 5vw; 
+    padding-left: 3vw; 
+    padding-right: 2vw;
 }
 
 .faint-grey {
-    background-color: #f1f1f1f9; 
-  }
+    background-color: #f1f1f1f7; 
+}
 
 .question-header {
-    margin-bottom: 2.5vh;
+    padding-bottom: 2.5vh;
 }
 
 .header-text {
@@ -17,5 +18,20 @@
 }
 
 .header-margin {
-   padding: 0;
+   margin-top: 100;
+}
+
+.button-margin {
+    margin-bottom: 0.5rem;
+    margin-top: 2rem;
+}
+
+.timer-card {
+    padding-right: 1vw;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.options-spacing {
+    margin-bottom: 2vh;
 }

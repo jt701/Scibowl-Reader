@@ -30,7 +30,6 @@ router.get('/random', async (req, res) => {
         ];
  
         const randomQuestions = await Question.aggregate(pipeline).exec();
- 
         if (randomQuestions.length === 0) {
             res.status(404).json({ error: 'No question found matching the provided parameters.' });
           }
@@ -46,15 +45,15 @@ router.get('/random', async (req, res) => {
 //for unauthorized users, returns whether answer is correct
 router.get("/check/:questionId", async (req, res) => {
     try {
-    
+        console.log('test');
         const { questionId } = req.params;
         const { userAnswer } = req.query;
         const question = await Question.findById(questionId);
         if (question === null) {
             res.status(404).json({ error: 'Question not found' });
         }
-        const answersList = question.computer_ans; //return [] with answers
-        const isCorrect = checkUserAnswer(userAnswer, answersList);
+        const answersList = question.computer_ans;   //return [] with answers
+        const isCorrect = checkUserAnswer(userAnswer, answersList, question.ans_type);
         res.json({ isCorrect });
         
     } catch(e) {
