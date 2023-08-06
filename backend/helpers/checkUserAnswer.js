@@ -46,7 +46,6 @@ const levenshtein = (str1, str2) => {
 
 const checkUserAnswer = (userAnswer, answersList, ansType) => {
     //if mc, check first letter or entire phrase
-    console.log('jest');
     if (ansType == "Multiple Choice") {
         console.log('nest')
         console.log('div')
@@ -62,8 +61,6 @@ const checkUserAnswer = (userAnswer, answersList, ansType) => {
         if (answersList[0][0].toLowerCase() == userAnswer.trim().toLowerCase()) {
             return true;
         } else {
-            console.log('pest')
-            console.log('pest')
             answersList[0] = answersList[0].split(")")[1];
            
         }

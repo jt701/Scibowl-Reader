@@ -18,11 +18,11 @@ Manual Checks (can't be automated, at least without copious amounts of work)
 """
 #helper function to parse_questions
 #gets detail once question is passed to it
-def get_question_details(question, set, round, question_num, question_type):
+def get_question_details(question, sett, round, question_num, question_type):
     details = {}
     
     #dealing with simple parameters
-    details['set'] = set
+    details['set'] = sett
     details['round'] = round
     details['q_num'] = question_num
     details['q_type'] = question_type

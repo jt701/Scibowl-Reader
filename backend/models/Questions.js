@@ -41,6 +41,10 @@ const questionSchema = new mongoose.Schema({
     computer_ans: {
       type: [String],
       required: true
+    },
+    ans_choices: {
+      type: [String],
+      required: false
     }
   }, {collection: 'questions'});
 

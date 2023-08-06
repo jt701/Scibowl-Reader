@@ -19,6 +19,9 @@ schema = {
     "answer": { "type": "string" },
     "computer_ans": {
       "type": "array",
+      "items": { "type": "string" },
+    "ans_choices": {
+      "type": "array",
       "items": { "type": "string" }
     }
   },
