@@ -1,0 +1,21 @@
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.expand-button {
+    margin-left: 1rem;
+}
+
+.header-gap {
+    padding-bottom: 0vh;
+}
+
+.faint-grey {
+    background-color: #f1f1f1f7; 
+}
+
+.spacing {
+    margin-bottom: 3vh;
+}

@@ -1,30 +1,67 @@
-import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
 import {Row, Col, Container} from 'react-bootstrap';
-const Question = () => {
-  return (
-    <Container>
-      <Row>
-        {/* Options column */}
-        <Col xs={12} md={8}>
-        <Accordion>
-            <Accordion.Item eventKey="0">
-                <Accordion.Header>Accordion Item #1</Accordion.Header>
-                <Accordion.Body>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                culpa qui officia deserunt mollit anim id est laborum.
-                </Accordion.Body>
-            </Accordion.Item>
-            </Accordion>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
+import React, { useState, useEffect, useRef } from "react";
+import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
+import '../css/Question.css'; 
+
+const Question = ({quest}) => {
+  const {q_type, ans_type, subject, set, round, question, answer} = quest;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(false);
+  
+  const handleToggleExpand = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleToggleReveal = () => {
+    setIsRevealed(!isRevealed);
+  };
+
+  return (
+  <div className="spacing">
+    <div className="header-gap">
+    <Card>
+      <Card.Body className='title faint-grey'>
+          <span style={{marginTop: -12, marginBottom: -12}}>
+          <b>{q_type.toUpperCase() || "can't load"}</b> {subject  || "can't load"} {'\u2014'}<i> {ans_type  || "can't load"}</i>
+          </span>
+          
+          <span style={{marginTop: -12, marginBottom: -12}}>
+          Set {set  || "can't load"} Round {round  || "can't load"}
+          <button className="expand-button" onClick={handleToggleExpand}>
+            {isOpen ? 'Collapse' : 'Expand'}
+            <FontAwesomeIcon icon={faChevronDown} className="ml-1" />
+          </button>
+          </span>
+      </Card.Body>
+    </Card>
+    </div>
+    {isOpen && (
+        <Card>
+          <Card.Body className="faint-grey">
+            <Card.Text>
+              {question  || "can't load"}
+              {isRevealed && (
+              <div>
+                <br/>
+                <b>ANSWER: </b>{answer || "can't load"}
+              </div>
+            )}
+            </Card.Text>
+            <button onClick={handleToggleReveal}>
+              {isRevealed ? 'Hide Answer' : 'Show Answer'}
+              <FontAwesomeIcon icon={faChevronUp} className="ml-1" />
+            </button>
+            
+          </Card.Body>
+        </Card>
+      )}
+    </div>
+  );
+ }
 
 export default Question;

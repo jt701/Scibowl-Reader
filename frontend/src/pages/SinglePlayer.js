@@ -4,9 +4,11 @@ import Form from 'react-bootstrap/Form';
 import {Row, Col, Container} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import React, { useState, useEffect, useRef } from "react";
 
 import axios from 'axios';
+import Question from "../components/Question";
 import '../css/SinglePlayer.css'; 
 
 
@@ -21,19 +23,15 @@ function SinglePlayer() {
     //Game setting use states
     const [timerEnable, setTimerState] = useState(true);
     const [speech, setSpeech] = useState(true);
-    const [pastQuestions, setPastQuestions] = useState(true);  
+    const [pastQuestionsShow, setPastQuestionsShow] = useState(true);  
     const [readMode, setreadMode] = useState(false)
     
-    //Question use states
-    const [set, setSet] = useState(0);
-    const [round, setRound] = useState(0);
-    const [qNum, setqNum] = useState(0);
-    const [qType, setqType] = useState("a");
-    const [ansType, setAnsType] = useState("");
-    const [subject, setSubject] = useState("");
-    const [question, setQuestion] = useState("");
-    const computer_question = useRef("");
-    const questionId = useRef("");
+    //Question use states (reduced to just question itself)
+    const [quest, setQuest] = useState(null);
+    const [answerChoices, setChoices] = useState("");
+    const [computerAnswerChoices, setComputerChoice] = useState("");
+    const [pastQuestions, setPastQuestions] = useState([]);
+   
 
     //Game Variables
     const [buzz, setBuzz] = useState(false);
@@ -41,7 +39,8 @@ function SinglePlayer() {
     const [inputVisible, setInputVisible] = useState(false); //for focusing buzz input area
     const inputRef = useRef(null);
     const [ansSubmit, setAnsSubmit] = useState(false);
-    const isCorrect = useRef(false);
+    const [checked, setCheck] = useState(false);
+    const [isCorrect, setIsCorrect] = useState(false);
 
     //decrements time is game in progress, timer option on, and timeLeft
     useEffect(() => {
@@ -79,13 +78,7 @@ function SinglePlayer() {
     };
 
     function resetQuestion() {
-        setSet(0);
-        setRound(0);
-        setqNum(0);
-        setqType("");
-        setAnsType("");
-        setSubject("");
-        setQuestion("");
+        setQuest(null);
         setGameState(false);
         setTimeLeft(0.0);
         setTimerOn(false);
@@ -93,6 +86,7 @@ function SinglePlayer() {
         setInput(""); 
         setInputVisible(false);
         setAnsSubmit(false);
+        setCheck(false);
     }
 
     async function fetchQuestion() {
@@ -103,19 +97,13 @@ function SinglePlayer() {
             let compAnswerChoices = "";
             if (quest.ans_type === "Multiple Choice") {
                 const answerChoices = quest.ans_choices;
-                visualAnswerChoices = `\nW) ${answerChoices[0]}\nY) ${answerChoices[1]}\nX) ${answerChoices[2]}\nZ) ${answerChoices[3]}`;
-                compAnswerChoices = `W) ${answerChoices[0]} Y) ${answerChoices[1]} X) ${answerChoices[2]} Z) ${answerChoices[3]}`;
+                visualAnswerChoices = `\nW) ${answerChoices[0]}\nX) ${answerChoices[1]}\nY) ${answerChoices[2]}\nZ) ${answerChoices[3]}`;
+                compAnswerChoices = `W) ${answerChoices[0]} X) ${answerChoices[1]} Y) ${answerChoices[2]} Z) ${answerChoices[3]}`;
             }
-            setSet(quest.set);
-            setRound(quest.round);
-            setqNum(quest.q_num);
-            setqType(quest.q_type);
-            setAnsType(quest.ans_type);
-            setSubject(quest.subject);
-            setQuestion(quest.question + visualAnswerChoices);
-            computer_question.current = quest.computer_question + compAnswerChoices;
-            questionId.current = quest._id
-            console.log(questionId);
+            setQuest(quest);
+            setChoices(visualAnswerChoices);
+            setComputerChoice(compAnswerChoices);
+            setIsCorrect(false);
         }
         catch (error) {
             resetQuestion();
@@ -123,6 +111,9 @@ function SinglePlayer() {
     }
 
     async function handleNextClick() {
+        if (quest) {
+            setPastQuestions([...pastQuestions, quest])
+        }
         resetQuestion();
         if (readMode) {
             try {
@@ -152,15 +143,15 @@ function SinglePlayer() {
         setTimerOn(false);
         try {
             if (input === "") {
-                isCorrect.current = false;
+                setIsCorrect(false);
             }
             else {
-                console.log("yep");
-                isCorrect.current = await axios.get(baseUrl + `/question/check/${questionId}?userAnswer=${input}`);
+                const response = await axios.get(baseUrl + `/question/check/${quest._id}?userAnswer=${input}`);
+                setIsCorrect(response.data.isCorrect);
             }
         }
         catch (error) {
-            isCorrect.current = false;
+            setIsCorrect(false);
             
         }
         setBuzz(true);
@@ -172,6 +163,22 @@ function SinglePlayer() {
         setInput(event.target.value)
     }
 
+    function handleCheck(event) {
+        setCheck(!checked);
+        setIsCorrect(!isCorrect);
+    }
+
+    function getSavedQuestions() {
+        return (
+            <div>
+                {pastQuestions.map((question, index) => (
+                <Question quest={question}/>
+                ))}
+            </div>
+        );
+    }
+
+
     return (
         <Container>
             <Row>
@@ -180,9 +187,24 @@ function SinglePlayer() {
                 <div className="options-container header-text">
                         <span>
                             <Button variant="success" className="button-margin" onClick={handleNextClick}>Next</Button>{' '}
-                            <Button variant="primary" className="button-margin">Pause</Button>{' '}
+                            {!readMode  ? 
+                                <Button variant="primary" className="button-margin" disabled={buzz || !quest}>
+                                    {gameInProgress ? "Pause" : "Resume"}</Button> : ""}
                         </span>
                         <span>
+                            {ansSubmit ?
+                                <ToggleButton
+                                className="button-margin checked-button"
+                                id="toggle-check"
+                                type="checkbox"
+                                variant="secondary"
+                                checked={checked}
+                                onChange={handleCheck}
+                              >
+                                Change Answer
+                              </ToggleButton>
+                                : ""
+                            }
                             <Button variant="danger" className="button-margin" disabled={!gameInProgress} onClick={handleBuzzClick}>Buzz</Button>{' '}
                         </span>
                     </div>
@@ -197,8 +219,8 @@ function SinglePlayer() {
                         ref={inputRef}
                         readOnly={ansSubmit}
                     />
-                    <Button variant={ansSubmit ? (isCorrect.current ? 'success' : 'danger') : 'warning'} id="submit-button" disabled={ansSubmit} onClick={submitAnswer}>
-                        {ansSubmit ? (isCorrect.current ? 'Correct' : 'Incorrect') : 'Submit'}
+                    <Button variant={ansSubmit ? (isCorrect ? 'success' : 'danger') : 'warning'} id="submit-button" disabled={ansSubmit} onClick={submitAnswer}>
+                        {ansSubmit ? (isCorrect ? 'Correct' : 'Incorrect') : 'Submit'}
                     </Button>
                     </InputGroup>
                     :null}
@@ -207,27 +229,33 @@ function SinglePlayer() {
                             <Card.Body className="faint-grey">
                                 <Card.Text className="header-text" style={{marginTop: -12, marginBottom: -12}}> 
                                 <span>
-                                    {set !== 0 && round !== 0 ? `Set ${set} Round ${round}` : 'Loading...'}
+                                    {quest && quest.set && quest.round ? `Set ${quest.set} Round ${quest.round}` : 'Loading...'}
                                 </span>
                                 <span>
-                                    {qNum !== 0 ? `Question ${qNum}` : 'Loading...' }
+                                    {quest && quest.q_num? `Question ${quest.q_num}` : 'Loading...' }
                                 </span>
                                 </Card.Text>
                             </Card.Body>
                         </Card>
                     </div>
-                    <Card>
-                        <Card.Body className="faint-grey">
-                            <Card.Text>
-                                {qType !== "" && ansType !== "" && subject !== "" && question !== "" ?
-                                <span>
-                                    <b>{qType.toUpperCase()}</b> {subject} {'\u2014'}<i> {ansType}</i>{'   '}{question}
-                                </span> : 'Loading...'
-                                }
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </div>
+                    <div className="spacing">
+                        <Card>
+                            <Card.Body className="faint-grey">
+                                <Card.Text>
+                                    {quest && quest.q_type && quest.ans_type && quest.subject && quest.question ?
+                                    <span>
+                                        <b>{quest.q_type.toUpperCase()}</b> {quest.subject} {'\u2014'}<i> {quest.ans_type}</i>{'   '}
+                                        {quest.question + answerChoices}{ansSubmit ? <span><br/><br/><b>ANSWER</b>: {quest.answer}</span>: ""}
+                                    </span> : 'Loading...'
+                                    }
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                    {pastQuestionsShow ?
+                    getSavedQuestions() : ""
+                    } 
+                </div>  
                 </Col>
                 {/* Options column */}
                 <Col xs={12} md={3}>
@@ -260,7 +288,7 @@ function SinglePlayer() {
                                 <Form.Check 
                                     type="switch"
                                     label="Hide Past Questions"
-                                    onChange={() => setPastQuestions(!pastQuestions)}
+                                    onChange={() => setPastQuestionsShow(!pastQuestionsShow)}
                                 />
                             </Form>
                         </Card.Body>

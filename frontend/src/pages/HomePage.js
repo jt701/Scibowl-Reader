@@ -4,7 +4,7 @@ function HomePage() {
     return (
         <div>
             <h1>How to Play</h1>
-            <Question />
+            {/* <Question /> */}
         </div>
     );
 }

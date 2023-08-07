@@ -26,6 +26,10 @@
     margin-top: 2rem;
 }
 
+.checked-button {
+    margin-right: 0.25rem;
+}
+
 .timer-card {
     padding-right: 1vw;
     margin-top: 2rem;
@@ -34,4 +38,8 @@
 
 .options-spacing {
     margin-bottom: 2vh;
+}
+
+.before-saved {
+    margin-bottom: 4vh;
 }

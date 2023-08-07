@@ -45,11 +45,8 @@ router.get('/random', async (req, res) => {
 //for unauthorized users, returns whether answer is correct
 router.get("/check/:questionId", async (req, res) => {
     try {
-        console.log('test');
         const { questionId } = req.params;
         const { userAnswer } = req.query;
-        console.log(questionId + "id")
-        console.log(userAnswer + "answer")
         const question = await Question.findById(questionId);
         if (question === null) {
             res.status(404).json({ error: 'Question not found' });
