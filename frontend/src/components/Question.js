@@ -1,13 +1,11 @@
 import Card from 'react-bootstrap/Card';
-import {Row, Col, Container} from 'react-bootstrap';
-import React, { useState, useEffect, useRef } from "react";
-import Button from 'react-bootstrap/Button';
+import React, { useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 import '../css/Question.css'; 
 
-const Question = ({quest}) => {
+const Question = ({quest, answerChoices}) => {
   const {q_type, ans_type, subject, set, round, question, answer} = quest;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +42,7 @@ const Question = ({quest}) => {
         <Card>
           <Card.Body className="faint-grey">
             <Card.Text>
-              {question  || "can't load"}
+              {question + answerChoices || "can't load"}
               {isRevealed && (
               <div>
                 <br/>

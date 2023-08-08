@@ -22,7 +22,6 @@ function SinglePlayer() {
 
     //Game setting use states
     const [timerEnable, setTimerState] = useState(true);
-    const [speech, setSpeech] = useState(true);
     const [pastQuestionsShow, setPastQuestionsShow] = useState(true);  
     const [readMode, setreadMode] = useState(false)
     
@@ -48,7 +47,7 @@ function SinglePlayer() {
             return;
         }
         let timer = null;
-        if (gameInProgress && timerOn && timeLeft > 0) {
+        if (timerOn && timeLeft > 0) {
             timer = setInterval(() => {
                 setTimeLeft((prevTimeLeft) => decrementTime(prevTimeLeft));
             }, 100); 
@@ -112,7 +111,7 @@ function SinglePlayer() {
 
     async function handleNextClick() {
         if (quest) {
-            setPastQuestions([...pastQuestions, quest])
+            setPastQuestions([quest, ...pastQuestions])
         }
         resetQuestion();
         if (readMode) {
@@ -172,13 +171,12 @@ function SinglePlayer() {
         return (
             <div>
                 {pastQuestions.map((question, index) => (
-                <Question quest={question}/>
+                <Question quest={question} answerChoices={answerChoices}/>
                 ))}
             </div>
         );
     }
-
-
+    
     return (
         <Container>
             <Row>
@@ -238,7 +236,7 @@ function SinglePlayer() {
                             </Card.Body>
                         </Card>
                     </div>
-                    <div className="spacing">
+                    <div className="before-saved">
                         <Card>
                             <Card.Body className="faint-grey">
                                 <Card.Text>
@@ -270,11 +268,6 @@ function SinglePlayer() {
                         <Card.Body>
                             <h2>Game Settings</h2>
                             <Form>
-                                <Form.Check 
-                                    type="switch"
-                                    label="Turn Off Speech"
-                                    onChange={() => setSpeech(!speech)}
-                                />
                                 <Form.Check 
                                     type="switch"
                                     label="Turn Off Timer"
