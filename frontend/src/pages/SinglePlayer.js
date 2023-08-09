@@ -5,15 +5,19 @@ import {Row, Col, Container} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import React, { useState, useEffect, useRef } from "react";
 
 import axios from 'axios';
 import Question from "../components/Question";
+import {syllable} from 'syllable'
 import '../css/SinglePlayer.css'; 
 
 
 function SinglePlayer() {
     const baseUrl = 'http://localhost:3030';
+    const pause = [",", ".", "?", ":", "!", , ]
     //timer related useStates
     const [timeLeft, setTimeLeft] = useState(0.0);
     const [gameInProgress, setGameState] = useState(false);
@@ -28,7 +32,6 @@ function SinglePlayer() {
     //Question use states (reduced to just question itself)
     const [quest, setQuest] = useState(null);
     const [answerChoices, setChoices] = useState("");
-    const [computerAnswerChoices, setComputerChoice] = useState("");
     const [pastQuestions, setPastQuestions] = useState([]);
    
 
@@ -40,6 +43,13 @@ function SinglePlayer() {
     const [ansSubmit, setAnsSubmit] = useState(false);
     const [checked, setCheck] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
+
+    //button refs
+    const buzzRef = useRef(null);
+    const nextRef = useRef(null);
+    const pauseRef = useRef(null);
+    const submitRef = useRef(null);
+
 
     //decrements time is game in progress, timer option on, and timeLeft
     useEffect(() => {
@@ -67,13 +77,43 @@ function SinglePlayer() {
               }, 0);
         }
       }, [inputVisible]);
+    
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
 
     function decrementTime(value) {
         const newTime = Number((value - 0.1).toFixed(1));
         if (newTime === 0.0) {
+            setGameState(false);
+            setTimerOn(false);
+            setBuzz(true);
             submitAnswer();
         }
         return newTime;
+    };
+
+    function handleKeyDown(event) {
+        switch (event.key) {
+            case ' ':
+            buzzRef.current.click();
+            break;
+            case 'n':
+            nextRef.current.click();
+            break;
+            case 'p':
+            pauseRef.current.click();
+            break;
+            case 'Enter':
+            submitRef.current.click();
+            break;
+            default:
+            break;
+        }
     };
 
     function resetQuestion() {
@@ -97,11 +137,9 @@ function SinglePlayer() {
             if (quest.ans_type === "Multiple Choice") {
                 const answerChoices = quest.ans_choices;
                 visualAnswerChoices = `\nW) ${answerChoices[0]}\nX) ${answerChoices[1]}\nY) ${answerChoices[2]}\nZ) ${answerChoices[3]}`;
-                compAnswerChoices = `W) ${answerChoices[0]} X) ${answerChoices[1]} Y) ${answerChoices[2]} Z) ${answerChoices[3]}`;
             }
             setQuest(quest);
             setChoices(visualAnswerChoices);
-            setComputerChoice(compAnswerChoices);
             setIsCorrect(false);
         }
         catch (error) {
@@ -137,9 +175,7 @@ function SinglePlayer() {
     //can't use arrow function as they aren't mounted so useEffect() for timer will error 
     //need to repeat resetting timer/game/buzz state because time may run out
     async function submitAnswer() {
-        //Submit answer needs to be done
-        setGameState(false);
-        setTimerOn(false);
+        setAnsSubmit(true);
         try {
             if (input === "") {
                 setIsCorrect(false);
@@ -153,8 +189,6 @@ function SinglePlayer() {
             setIsCorrect(false);
             
         }
-        setBuzz(true);
-        setAnsSubmit(true);
 
     }
 
@@ -176,6 +210,11 @@ function SinglePlayer() {
             </div>
         );
     }
+
+    //gets timeout between words when reading question
+    function getTimeout(word) {
+        
+    }
     
     return (
         <Container>
@@ -184,10 +223,14 @@ function SinglePlayer() {
                 <Col xs={12} md={9}>
                 <div className="options-container header-text">
                         <span>
-                            <Button variant="success" className="button-margin" onClick={handleNextClick}>Next</Button>{' '}
-                            {!readMode  ? 
-                                <Button variant="primary" className="button-margin" disabled={buzz || !quest}>
-                                    {gameInProgress ? "Pause" : "Resume"}</Button> : ""}
+                            <OverlayTrigger placement="top" overlay={(<Tooltip>n key</Tooltip>)}>
+                                <Button variant="success" disabled={buzz && !ansSubmit} ref={nextRef}className="button-margin next-button" 
+                                    onClick={handleNextClick}>Next</Button>
+                            </OverlayTrigger>
+                            <OverlayTrigger placement="top" overlay={(<Tooltip>p key</Tooltip>)}>
+                                <Button variant="primary" className="button-margin" ref={pauseRef} disabled={buzz || !quest || readMode}>
+                                    {gameInProgress ? "Pause" : "Resume"}</Button> 
+                            </OverlayTrigger>
                         </span>
                         <span>
                             {ansSubmit ?
@@ -203,7 +246,10 @@ function SinglePlayer() {
                               </ToggleButton>
                                 : ""
                             }
-                            <Button variant="danger" className="button-margin" disabled={!gameInProgress} onClick={handleBuzzClick}>Buzz</Button>{' '}
+                            <OverlayTrigger placement="top" overlay={(<Tooltip>space key</Tooltip>)}>
+                                <Button variant="danger" className="button-margin" disabled={!gameInProgress} 
+                                ref={buzzRef} onClick={handleBuzzClick}>Buzz</Button>
+                            </OverlayTrigger>
                         </span>
                     </div>
                 <div className="options-container">
@@ -215,11 +261,13 @@ function SinglePlayer() {
                         value={input}
                         onChange={handleInput}
                         ref={inputRef}
-                        readOnly={ansSubmit}
+                        disabled={ansSubmit}
                     />
-                    <Button variant={ansSubmit ? (isCorrect ? 'success' : 'danger') : 'warning'} id="submit-button" disabled={ansSubmit} onClick={submitAnswer}>
-                        {ansSubmit ? (isCorrect ? 'Correct' : 'Incorrect') : 'Submit'}
-                    </Button>
+                    <OverlayTrigger placement="top" overlay={(<Tooltip>enter key</Tooltip>)}>
+                        <Button variant={ansSubmit ? (isCorrect ? 'success' : 'danger') : 'warning'} ref={submitRef} disabled={ansSubmit} onClick={submitAnswer}>
+                            {ansSubmit ? (isCorrect ? 'Correct' : 'Incorrect') : 'Submit'}
+                        </Button>
+                    </OverlayTrigger>
                     </InputGroup>
                     :null}
                     <div className="question-header">
@@ -295,7 +343,6 @@ function SinglePlayer() {
                 </div>
                 </Col>
             </Row>
-            
         </Container>
       );
 }

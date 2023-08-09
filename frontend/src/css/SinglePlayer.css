@@ -26,6 +26,10 @@
     margin-top: 2rem;
 }
 
+.next-button {
+    margin-right: 0.5vw;
+}
+
 .checked-button {
     margin-right: 0.25rem;
 }
