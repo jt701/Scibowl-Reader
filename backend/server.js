@@ -11,6 +11,9 @@ const db = mongoose.connection;
 const router = express.Router();
 const port = process.env.PORT || 3030;
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const app = express();
 app.use(cors());
 app.options('*', cors());
@@ -23,8 +26,11 @@ router.get('/', (req, res) => {
 })
 app.use("/", router);
 
-const questionRouter = require('./routes/questions.js')
-app.use('/question', questionRouter)
+const questionRouter = require('./routes/questions.js');
+app.use('/question', questionRouter);
+
+const authRouter = require('./routes/auth.js');
+app.use('/auth', authRouter);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
